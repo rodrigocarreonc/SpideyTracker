@@ -5,6 +5,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 interface SightingClient {
-    @GET("/Sightings")
+    @GET("/sightings.json")
     suspend fun getAllSightings(): Response<List<Sighting>>
 }
