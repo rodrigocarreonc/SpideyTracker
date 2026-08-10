@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecrets)
 }
 
 android {
@@ -33,6 +34,10 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+secrets{
+    defaultPropertiesFileName="local.properties"
 }
 
 dependencies {
