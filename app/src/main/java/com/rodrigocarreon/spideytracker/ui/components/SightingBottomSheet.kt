@@ -30,6 +30,8 @@ import com.rodrigocarreon.spideytracker.data.model.Sighting
 val RetroBeige = Color(0xFFF2EEDD)
 val PixelBorder = Color(0xFF1E1E1E)
 
+val API_URLBASE = "https://spideytracker.vercel.app"
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SightingBottomSheet(
@@ -62,7 +64,7 @@ fun SightingBottomSheet(
             ) {
                 if(sighting.image != null){
                     AsyncImage(
-                        model = sighting.image,
+                        model = API_URLBASE + sighting.image,
                         contentDescription = "Sighting Photo",
                         modifier = Modifier
                             .size(100.dp)
