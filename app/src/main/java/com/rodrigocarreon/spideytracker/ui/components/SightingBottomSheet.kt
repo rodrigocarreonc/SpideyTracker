@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -19,9 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.rodrigocarreon.spideytracker.data.model.Sighting
 
 val RetroBeige = Color(0xFFF2EEDD)
@@ -57,6 +60,18 @@ fun SightingBottomSheet(
                     .padding(16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                if(sighting.image != null){
+                    AsyncImage(
+                        model = sighting.image,
+                        contentDescription = "Sighting Photo",
+                        modifier = Modifier
+                            .size(100.dp)
+                            .border(4.dp, PixelBorder),
+                        contentScale = ContentScale.Crop
+                    )
+
+                    Spacer(modifier = Modifier.width(16.dp))
+                }
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
