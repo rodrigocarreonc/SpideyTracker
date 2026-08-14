@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -27,7 +30,9 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.rodrigocarreon.spideytracker.R
 import com.rodrigocarreon.spideytracker.core.bitmapDescriptorFromVector
+import com.rodrigocarreon.spideytracker.data.model.Sighting
 import com.rodrigocarreon.spideytracker.data.model.SightingType
+import com.rodrigocarreon.spideytracker.ui.components.SightingBottomSheet
 import com.rodrigocarreon.spideytracker.ui.viewmodel.SightingViewModel
 import com.rodrigocarreon.spideytracker.ui.viewmodel.ViewModelFactory
 
@@ -47,6 +52,9 @@ fun MapScreen (
     val bottomFrame = R.drawable.bottomframe
     val rightFrame = R.drawable.rightframe
     val leftFrame = R.drawable.leftframe
+
+    var selectedSighting by remember { mutableStateOf<Sighting?>(null) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     val sightings by viewModel.sightings.collectAsState()
     LaunchedEffect(Unit) {
@@ -84,7 +92,12 @@ fun MapScreen (
                     state = MarkerState(position = LatLng(sighting.latitude, sighting.longitude)),
                     title = sighting.title,
                     snippet = sighting.description,
-                    icon = mapIcon
+                    icon = mapIcon,
+                    onClick = {
+                        selectedSighting = sighting
+                        showBottomSheet = true
+                        true
+                    }
                 )
             }
         }
@@ -121,6 +134,16 @@ fun MapScreen (
             painter = painterResource(id = spideyBanner),
             contentDescription= "Logo SpideyTracker",
             modifier = Modifier.align(Alignment.TopCenter).padding(top = 12.dp).fillMaxWidth(0.75f).size(40.dp)
+        )
+    }
+
+    if(showBottomSheet && selectedSighting != null){
+        SightingBottomSheet(
+            sighting = selectedSighting!!,
+            onDismiss = {
+                showBottomSheet = false
+                selectedSighting = null
+            }
         )
     }
 }
